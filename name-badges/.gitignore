@@ -1,0 +1,7 @@
+#script outputs
+tmp
+out
+
+#output files
+*.pyc
+*.png
