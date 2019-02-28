@@ -1,7 +1,8 @@
-#!/bin/pyhton3
+#!/usr/bin/env python3
 
 import sys
 import re
+import os
 import lxml.etree as etree
 import subprocess
 
@@ -12,15 +13,15 @@ names=open(namesfile).readlines()
 def altersvg(file,name,role):
     svg = open(file, mode="rb").read()
     root = etree.fromstring(svg)
-    print(root)
     root.findall(".//text[@inkscape:label='Name']",root.nsmap)[0][0].text=name
     root.findall(".//text[@inkscape:label='Role']",root.nsmap)[0][0].text=role
     return(etree.tostring(root, encoding='UTF-8'))
 
 
-
-os.mkdir("tmp")
-os.mkdir("tmp")
+if not os.path.exists("tmp"):
+    os.mkdir("tmp")
+if not os.path.exists("out"):
+    os.mkdir("out")
 for name in names:
     parts = name.split(":")
     print(parts)
