@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 
-import sys
-import re
 import os
-import lxml.etree as etree
 import subprocess
+import sys
+
+import lxml.etree as etree
 
 namesfile = sys.argv[1]
 
-names=open(namesfile).readlines()
+names = open(namesfile).readlines()
 
-def altersvg(file,name,role):
+
+def altersvg(file, name, role):
     svg = open(file, mode="rb").read()
     root = etree.fromstring(svg)
-    root.findall(".//text[@inkscape:label='Name']",root.nsmap)[0][0].text=name
-    root.findall(".//text[@inkscape:label='Role']",root.nsmap)[0][0].text=role
+    root.findall(".//text[@inkscape:label='Name']", root.nsmap)[0][0].text = name
+    root.findall(".//text[@inkscape:label='Role']", root.nsmap)[0][0].text = role
     return(etree.tostring(root, encoding='UTF-8'))
 
 
@@ -27,15 +28,23 @@ for name in names:
     print(parts)
     name = parts[0].strip()
     role = parts[1].strip()
-    customsvg = altersvg("badge.svg",name,role)
-    #svg2png(bytestring=customsvg,write_t0='tmp.png')
+    customsvg = altersvg("badge.svg", name, role)
+    # svg2png(bytestring=customsvg,write_t0='tmp.png')
 
     if os.name == 'nt':
-        inkscape="c://Program Files/Inkscape/inkscape.exe"
+        inkscape = "c://Program Files/Inkscape/inkscape.exe"
     else:
-        inkscape="inkscape"
+        inkscape = "inkscape"
 
-    writesvg = open("tmp/"+name+".svg","wb")
+    writesvg = open(f"tmp/{name}.svg", "wb")
     writesvg.write(customsvg)
     writesvg.close()
-    subprocess.call([inkscape, "-f", "tmp/"+name+".svg", "-e", "out/"+name+".png", "-d", "600"])
+    subprocess.call([
+        inkscape,
+        "-f",
+        f"tmp/{name}.svg",
+        "-e",
+        f"out/{name}.png",
+        "-d",
+        "600",
+    ])
