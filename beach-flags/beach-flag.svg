@@ -68,9 +68,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.067722642"
-     inkscape:cx="1631.6552"
-     inkscape:cy="3455.2698"
+     inkscape:zoom="0.047887139"
+     inkscape:cx="1868.9778"
+     inkscape:cy="2589.4217"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="1912"
@@ -101,6 +101,14 @@
          id="g158"
          clip-path="url(#clipPath162)" />
     </g>
+    <rect
+       style="fill:#3270ed;stroke-width:1.33229;fill-opacity:1"
+       id="rect214"
+       width="1409.5643"
+       height="6938.1885"
+       x="-78.309128"
+       y="-6805.063"
+       transform="scale(1,-1)" />
   </g>
   <g
      inkscape:groupmode="layer"
