@@ -26,7 +26,7 @@ def alter_badge_svg(file, name, role, pronouns):
     root.findall(".//text[@id='Name']", root.nsmap)[0][0].text = name
     root.findall(".//text[@id='Role']", root.nsmap)[0][0].text = role
     root.findall(".//text[@id='Pronouns']", root.nsmap)[0][0].text = pronouns
-    return(etree.tostring(root, encoding='UTF-8'))
+    return(etree.tostring(root, encoding='utf-8'))
 
 
 def alter_badge_template(file, badges):
@@ -45,7 +45,7 @@ def alter_badge_template(file, badges):
             embedded_root.set(field, embed_child.get(field))
 
         embed_parent[embed_index] = embedded_root  # replace element with svg
-    return(etree.tostring(root, encoding='UTF-8'))
+    return(etree.tostring(root, encoding='utf-8'))
 
 
 if not os.path.exists("tmp"):
