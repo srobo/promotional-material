@@ -31,12 +31,10 @@ def alter_badge_svg(file, name, role, pronouns):
 
 def alter_badge_template(file, badges):
     svg = open(file, mode="rb").read()
-    print(svg)
     root = etree.fromstring(svg)
     for i, badge in enumerate(badges):
         print(i + 1, badge)
         embedded_root = etree.parse("tmp/" + badge).getroot()  # load svg
-        print(root.findall(f".//rect[@id='Badge{i+1}']", root.nsmap)[0])
         embed_parent = root.findall(f".//rect[@id='Badge{i+1}']/..", root.nsmap)[0]
         embed_child = embed_parent.findall(f".//rect[@id='Badge{i+1}']", root.nsmap)[0]
         embed_index = list(embed_parent).index(embed_child)
@@ -88,7 +86,6 @@ for i, badge_group in enumerate(chunk(names, 8)):
         parts = name.split(":")
         name = parts[0].strip()
         badges.append(f"{name}.svg")
-    print(badges)
     custom_svg = alter_badge_template("Badge-Layout-Plain.svg", badges)
     write_svg = open(f"tmp/{i}.svg", "wb")
     write_svg.write(custom_svg)
