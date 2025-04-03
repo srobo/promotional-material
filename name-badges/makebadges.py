@@ -70,15 +70,15 @@ for name, filename in zip(names, filenames):
     writesvg = open(f"tmp/{filename}.svg", "wb")
     writesvg.write(customsvg)
     writesvg.close()
-    subprocess.call([
-        inkscape,
-        "-p",
-        f"tmp/{filename}.svg",
-        "-o",
-        f"out/{filename}.png",
-        "-d",
-        "600",
-    ])
+    # subprocess.call([
+    #     inkscape,
+    #     "-p",
+    #     f"tmp/{filename}.svg",
+    #     "-o",
+    #     f"out/{filename}.png",
+    #     "-d",
+    #     "600",
+    # ])
 
 
 # split names into chunks with max size of 8
