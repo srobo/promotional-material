@@ -50,7 +50,10 @@ if not os.path.exists("tmp"):
     os.mkdir("tmp")
 if not os.path.exists("out"):
     os.mkdir("out")
-for name in names:
+
+filenames = [f"{i:03d}-{name.split(':')[0].strip()}" for i, name in enumerate(names)]
+
+for name, filename in zip(names, filenames):
     parts = name.split(":")
     print(parts)
     name = parts[0].strip()
@@ -64,22 +67,22 @@ for name in names:
     else:
         inkscape = "inkscape"
 
-    writesvg = open(f"tmp/{name}.svg", "wb")
+    writesvg = open(f"tmp/{filename}.svg", "wb")
     writesvg.write(customsvg)
     writesvg.close()
     subprocess.call([
         inkscape,
         "-p",
-        f"tmp/{name}.svg",
+        f"tmp/{filename}.svg",
         "-o",
-        f"out/{name}.png",
+        f"out/{filename}.png",
         "-d",
         "600",
     ])
 
 
 # split names into chunks with max size of 8
-for i, badge_group in enumerate(chunk(names, 8)):
+for i, badge_group in enumerate(chunk(filenames, 8)):
     # place badges into 'Badgel-Layout-Plain.svg'
     badges = []
     for name in badge_group:
