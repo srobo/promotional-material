@@ -31,12 +31,10 @@ def alter_badge_svg(file, name, role, pronouns):
 
 def alter_badge_template(file, badges):
     svg = open(file, mode="rb").read()
-    print(svg)
     root = etree.fromstring(svg)
     for i, badge in enumerate(badges):
         print(i + 1, badge)
         embedded_root = etree.parse("tmp/" + badge).getroot()  # load svg
-        print(root.findall(f".//rect[@id='Badge{i+1}']", root.nsmap)[0])
         embed_parent = root.findall(f".//rect[@id='Badge{i+1}']/..", root.nsmap)[0]
         embed_child = embed_parent.findall(f".//rect[@id='Badge{i+1}']", root.nsmap)[0]
         embed_index = list(embed_parent).index(embed_child)
@@ -52,7 +50,10 @@ if not os.path.exists("tmp"):
     os.mkdir("tmp")
 if not os.path.exists("out"):
     os.mkdir("out")
-for name in names:
+
+filenames = [f"{i:03d}-{name.split(':')[0].strip()}" for i, name in enumerate(names)]
+
+for name, filename in zip(names, filenames):
     parts = name.split(":")
     print(parts)
     name = parts[0].strip()
@@ -66,29 +67,28 @@ for name in names:
     else:
         inkscape = "inkscape"
 
-    writesvg = open(f"tmp/{name}.svg", "wb")
+    writesvg = open(f"tmp/{filename}.svg", "wb")
     writesvg.write(customsvg)
     writesvg.close()
-    subprocess.call([
-        inkscape,
-        "-p",
-        f"tmp/{name}.svg",
-        "-o",
-        f"out/{name}.png",
-        "-d",
-        "600",
-    ])
+    # subprocess.call([
+    #     inkscape,
+    #     "-p",
+    #     f"tmp/{filename}.svg",
+    #     "-o",
+    #     f"out/{filename}.png",
+    #     "-d",
+    #     "600",
+    # ])
 
 
 # split names into chunks with max size of 8
-for i, badge_group in enumerate(chunk(names, 8)):
+for i, badge_group in enumerate(chunk(filenames, 8)):
     # place badges into 'Badgel-Layout-Plain.svg'
     badges = []
     for name in badge_group:
         parts = name.split(":")
         name = parts[0].strip()
         badges.append(f"{name}.svg")
-    print(badges)
     custom_svg = alter_badge_template("Badge-Layout-Plain.svg", badges)
     write_svg = open(f"tmp/{i}.svg", "wb")
     write_svg.write(custom_svg)
